@@ -1,10 +1,11 @@
 from django.http import JsonResponse
 from django.http import HttpResponse
 from django.core import serializers
-from .logic.logic_eventos import get_eventos, get_evento, crear_evento
+from .logic.logic_eventos import get_eventos, get_evento, crear_evento, actualizar_evento
 from django.views.decorators.csrf import csrf_exempt 
 from .models import EventoMedico as Evento
 from django.shortcuts import render
+import json
 
 def lista_eventos(request):
     eventos = Evento.objects.all()
@@ -30,15 +31,15 @@ def eventos_view(request):
         evento_json = serializers.serialize('json', [evento_dto,])
         return HttpResponse(evento, 'application/json')
 
-
-def eventos_view(request):
-    if request.method == 'GET':
-        eventos = get_eventos()
-        eventos_dto = serializers.serialize('json', eventos)
-        return HttpResponse(eventos_dto, content_type='application/json')
-
+@csrf_exempt
 def evento_view(request, pk):
     if request.method == 'GET':
         evento = get_evento(pk)
-        evento_dto = serialize('json', [evento]) 
+        evento_dto = serializers.serialize('json', [evento]) 
         return JsonResponse(evento_dto, safe=False)
+    
+    if request.method == 'PUT':
+        evento_dto = actualizar_evento(pk, json.loads(request.body))
+        evento = serializers.serialize('json', [evento_dto])
+        return HttpResponse(evento, 'application/json')
+    

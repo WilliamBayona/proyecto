@@ -15,3 +15,13 @@ def crear_evento(data):
     )
     evento.save()
     return evento
+
+def actualizar_evento(pk, new_data):
+    evento = get_evento(pk)
+    evento.historia_clinica_id = new_data.get("historia_clinica_id", evento.historia_clinica_id)
+    evento.motivo = new_data.get("motivo", evento.motivo)
+    evento.fecha = new_data.get("fecha", evento.fecha)
+    evento.save() 
+    
+    return evento
+

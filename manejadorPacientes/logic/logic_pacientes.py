@@ -20,3 +20,19 @@ def crear_paciente(data):
     )
     paciente.save()
     return paciente
+
+def actualizar_paciente(pk, new_data):
+    paciente = get_paciente(pk) 
+    
+    paciente.paciente_id = new_data.get("paciente_id", paciente.paciente_id)
+    paciente.nombre = new_data.get("nombre", paciente.nombre)
+    paciente.id_historial = new_data.get("id_historial", paciente.id_historial)
+    paciente.edad = new_data.get("edad", paciente.edad)
+    paciente.genero = new_data.get("genero", paciente.genero)
+    paciente.tipo_sangre = new_data.get("tipo_sangre", paciente.tipo_sangre)
+    paciente.alergias = new_data.get("alergias", paciente.alergias)
+    paciente.condiciones_medicas = new_data.get("condiciones_medicas", paciente.condiciones_medicas)
+    
+    paciente.save()
+    return paciente
+
