@@ -1,8 +1,6 @@
 from django.http import JsonResponse
 from django.http import HttpResponse
 from django.core import serializers
-
-#TO DO: importar la función get_eventos bien
 from .logic.logic_eventos import get_eventos 
 from .models import EventoMedico as Evento
 from django.shortcuts import render
