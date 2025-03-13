@@ -2,7 +2,8 @@ from django.http import JsonResponse
 from .models import Paciente
 from django.http import HttpResponse
 from django.core import serializers
-from .logic.logic_pacientes import get_pacientes, get_paciente
+from .logic.logic_pacientes import get_pacientes, get_paciente, crear_paciente
+from django.views.decorators.csrf import csrf_exempt
 
 
 def lista_pacientes(request):
@@ -16,8 +17,28 @@ def pacientes_view(request):
         pacientes_dto = serializers.serialize('json', pacientes)
         return HttpResponse(pacientes_dto, content_type='application/json')
 
+@csrf_exempt
+def pacientes_view(request):
+    if request.method == 'GET':
+        paciente_id = request.GET.get("paciente_id", None)
+
+        if paciente_id:
+            paciente_dto = get_paciente(paciente_id)
+            paciente = serializers.serialize('json', [paciente_dto,])
+            return HttpResponse(paciente, 'application/json')
+        else:
+            pacientes_dto = get_pacientes()
+            pacientes = serializers.serialize('json', [pacientes_dto,])
+            return HttpResponse(pacientes, 'application/json')  
+
+    if request.method == 'POST':
+        paciente_dto = crear_paciente(json.loads(request.body))
+        paciente_json = serializers.serialize('json', [paciente_dto,])
+        return HttpResponse(paciente, 'application/json')
+
+
 def paciente_view(request, pk):
     if request.method == 'GET':
         paciente = get_paciente(pk)
-        paciente_dto = serialize('json', [paciente])  # Se serializa como JSON
+        paciente_dto = serializers.serialize('json', [paciente])  # Se serializa como JSON
         return JsonResponse(paciente_dto, safe=False)
