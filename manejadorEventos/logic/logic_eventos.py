@@ -1,14 +1,14 @@
-from ..models import Evento
+from ..models import EventoMedico
 
 def get_eventos():
-    eventos = Evento.objects.all()
+    eventos = EventoMedico.objects.all()
     return eventos
 
 def get_evento(evento_id):
-    return Evento.objects.get(pk=evento_id)
+    return EventoMedico.objects.get(pk=evento_id)
 
 def crear_evento(data):
-    evento = Evento(
+    evento = EventoMedico(
         historia_clinica_id=data.get("historia_clinica_id"),
         motivo=data.get("motivo"),
         fecha=data.get("fecha")
