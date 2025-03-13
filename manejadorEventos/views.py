@@ -15,3 +15,9 @@ def eventos_view(request):
         eventos = get_eventos()
         eventos_dto = serializers.serialize('json', eventos)
         return HttpResponse(eventos_dto, content_type='application/json')
+
+def evento_view(request, pk):
+    if request.method == 'GET':
+        evento = get_evento(pk)
+        evento_dto = serialize('json', [evento]) 
+        return JsonResponse(evento_dto, safe=False)
