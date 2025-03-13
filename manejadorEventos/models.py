@@ -1,5 +1,6 @@
 from django.db import models
 from manejadorPacientes.models import Paciente
+
 class EventoMedico(models.Model):
     fecha = models.DateField()
     motivo = models.TextField()
