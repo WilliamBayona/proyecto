@@ -1,3 +1,19 @@
+from django.http import JsonResponse
+from django.http import HttpResponse
+from django.core import serializers
+
+#TO DO: importar la función get_eventos bien
+from .logic.logic_eventos import get_eventos 
+from .models import EventoMedico as Evento
 from django.shortcuts import render
 
-# Create your views here.
+def lista_eventos(request):
+    eventos = Evento.objects.all()
+    data = {"eventos": list(eventos.values())}
+    return JsonResponse(data)
+
+def eventos_view(request):
+    if request.method == 'GET':
+        eventos = get_eventos()
+        eventos_dto = serializers.serialize('json', eventos)
+        return HttpResponse(eventos_dto, content_type='application/json')
