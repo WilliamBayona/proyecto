@@ -22,5 +22,6 @@ urlpatterns = [
     path('', include('manejadorEventos.urls')),
     path('', include('manejadorHClinicas.urls')),
     path('', include('manejadorPacientes.urls')),
+    path('', include('manejadorPruebaDiagnostica.urls')),
     path('health-check/', views.healthCheck),
 ]
